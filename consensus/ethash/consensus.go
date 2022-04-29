@@ -39,9 +39,9 @@ import (
 
 // Ethash proof-of-work protocol constants.
 var (
-	FrontierBlockReward           = big.NewInt(5e+18) // Block reward in wei for successfully mining a block
-	ByzantiumBlockReward          = big.NewInt(3e+18) // Block reward in wei for successfully mining a block upward from Byzantium
-	ConstantinopleBlockReward     = big.NewInt(2e+18) // Block reward in wei for successfully mining a block upward from Constantinople
+	FrontierBlockReward           = big.NewInt(4e+18) // Block reward in wei for successfully mining a block
+	ByzantiumBlockReward          = big.NewInt(4e+18) // Block reward in wei for successfully mining a block upward from Byzantium
+	ConstantinopleBlockReward     = big.NewInt(4e+18) // Block reward in wei for successfully mining a block upward from Constantinople
 	maxUncles                     = 2                 // Maximum number of uncles allowed in a single block
 	allowedFutureBlockTimeSeconds = int64(15)         // Max seconds from current time allowed for blocks, before they're considered future blocks
 
@@ -333,23 +333,23 @@ func (ethash *Ethash) CalcDifficulty(chain consensus.ChainHeaderReader, time uin
 // the difficulty that a new block should have when created at time
 // given the parent block's time and difficulty.
 func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Header) *big.Int {
-	next := new(big.Int).Add(parent.Number, big1)
-	switch {
-	case config.IsArrowGlacier(next):
-		return calcDifficultyEip4345(time, parent)
-	case config.IsLondon(next):
-		return calcDifficultyEip3554(time, parent)
-	case config.IsMuirGlacier(next):
-		return calcDifficultyEip2384(time, parent)
-	case config.IsConstantinople(next):
-		return calcDifficultyConstantinople(time, parent)
-	case config.IsByzantium(next):
-		return calcDifficultyByzantium(time, parent)
-	case config.IsHomestead(next):
-		return calcDifficultyHomestead(time, parent)
-	default:
-		return calcDifficultyFrontier(time, parent)
-	}
+	// next := new(big.Int).Add(parent.Number, big1)
+	// switch {
+	// case config.IsArrowGlacier(next):
+	// 	return calcDifficultyEip4345(time, parent)
+	// case config.IsLondon(next):
+	// 	return calcDifficultyEip3554(time, parent)
+	// case config.IsMuirGlacier(next):
+	// 	return calcDifficultyEip2384(time, parent)
+	// case config.IsConstantinople(next):
+	// 	return calcDifficultyConstantinople(time, parent)
+	// case config.IsByzantium(next):
+	// 	return calcDifficultyByzantium(time, parent)
+	// case config.IsHomestead(next):
+	// 	return calcDifficultyHomestead(time, parent)
+	// default:
+	return calcDifficultyFrontier(time, parent)
+	// }
 }
 
 // Some weird constants to avoid constant memory allocs for them.
@@ -486,11 +486,13 @@ func calcDifficultyFrontier(time uint64, parent *types.Header) *big.Int {
 	bigTime.SetUint64(time)
 	bigParentTime.SetUint64(parent.Time)
 
+	
 	if bigTime.Sub(bigTime, bigParentTime).Cmp(params.DurationLimit) < 0 {
 		diff.Add(parent.Difficulty, adjust)
 	} else {
 		diff.Sub(parent.Difficulty, adjust)
 	}
+
 	if diff.Cmp(params.MinimumDifficulty) < 0 {
 		diff.Set(params.MinimumDifficulty)
 	}

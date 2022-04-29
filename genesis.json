@@ -1,0 +1,28 @@
+{
+  "config": {
+    "chainId": 5577,
+    "homesteadBlock": 0,
+    "daoForkBlock": 0,
+    "daoForkSupport": true,
+    "eip150Block": 0,
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "muirGlacierBlock": 0,
+    "berlinBlock": 0,
+    "londonBlock": 0,
+    "arrowGlacierBlock": 0,
+    "ethash": {
+    }
+  },
+  "gasLimit": "800000",
+  "difficulty": "131072",
+  "nonce": "99",
+  "timestamp": "1640138236",
+  "alloc": {
+    "0x083560249F4c6CCB428C903Af423E45B68E490eB": { "balance": "6000000000000000000000000" } 
+  }
+}
